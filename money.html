@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>エコパワーサービス</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f0f7f4 0%, #ffffff 100%);
+        }
+
+        .header {
+            background: white;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: #2e7d32;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .main-container {
+            padding: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .savings-banner {
+            background: linear-gradient(135deg, #43a047 0%, #2e7d32 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .savings-amount {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .savings-goal {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .goal-progress {
+            margin: 15px 0;
+            background: #f5f5f5;
+            border-radius: 10px;
+            height: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: linear-gradient(90deg, #43a047 0%, #2e7d32 100%);
+            width: 75%;
+            transition: width 0.3s ease;
+        }
+
+        .goal-stats {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .tips-card {
+            background: #e8f5e9;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        /* 既存のスタイル続き... */
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .service-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .service-icon {
+            font-size: 1.5rem;
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        .points-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .campaign-section {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 70px;
+        }
+
+        .campaign-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 12px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+
+        .nav-item i {
+            font-size: 1.2rem;
+        }
+
+        .badge {
+            background: #ff5722;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            margin-left: 5px;
+        }
+
+        .price {
+            color: #ff5722;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <i class="fas fa-leaf"></i> NEXTONE
+        </div>
+        <i class="fas fa-bell"></i>
+    </div>
+
+    <div class="main-container">
+        <div class="savings-banner">
+            <div>今月の電気料金</div>
+            <div class="savings-amount">¥12,450</div>
+            <div>
+                <i class="fas fa-arrow-down"></i> 先月比-1,250円
+                <span class="badge">お得</span>
+            </div>
+        </div>
+
+        <!-- 新しく追加した節約目標セクション -->
+        <div class="savings-goal">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3>今月の節約目標</h3>
+                <div style="color: #2e7d32; font-weight: bold;">達成まであと¥2,450</div>
+            </div>
+            <div class="goal-progress">
+                <div class="progress-bar"></div>
+            </div>
+            <div class="goal-stats">
+                <span>目標: ¥10,000</span>
+                <span>現在: ¥12,450</span>
+            </div>
+            <div class="tips-card">
+                <i class="fas fa-lightbulb" style="color: #2e7d32; font-size: 1.2rem;"></i>
+                <div>
+                    <strong>節約のヒント</strong>
+                    <p style="font-size: 0.9rem; color: #666;">エアコンの設定温度を1℃調整すると、約10%の節約になります</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="points-card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h3>保有ポイント</h3>
+                    <div style="font-size: 1.5rem; font-weight: bold; color: #ff5722;">
+                        2,840 pt
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="color: #666;">ポイント交換レート</div>
+                    <div style="color: #2e7d32;">1pt = 1円</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="service-grid">
+            <div class="service-card">
+                <i class="fas fa-water service-icon"></i>
+                <h3>ウォーターサーバー</h3>
+                <p>今なら3ヶ月無料</p>
+                <p class="price">¥2,480~/月</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-truck service-icon"></i>
+                <h3>引越しサービス</h3>
+                <p>最大30,000pt進呈</p>
+                <span class="badge">特典あり</span>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-tools service-icon"></i>
+                <h3>修理・メンテナンス</h3>
+                <p>24時間対応可能</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-lightbulb service-icon"></i>
+                <h3>でんき診断</h3>
+                <p>最適プラン診断実施中</p>
+            </div>
+        </div>
+
+        <div class="campaign-section">
+            <h3>お得なキャンペーン</h3>
+            <div class="campaign-card">
+                <i class="fas fa-gift" style="color: #ff5722; font-size: 1.5rem;"></i>
+                <div>
+                    <h4>新生活応援キャンペーン</h4>
+                    <p>新規契約で10,000ptプレゼント</p>
+                </div>
+            </div>
+            <div class="campaign-card">
+                <i class="fas fa-tag" style="color: #ff5722; font-size: 1.5rem;"></i>
+                <div>
+                    <h4>紹介特典実施中</h4>
+                    <p>お友達紹介で双方に5,000pt</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <a href="#" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>ホーム</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-chart-line"></i>
+            <span>使用量</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-gift"></i>
+            <span>特典</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>設定</span>
+        </a>
+    </div>
+</body>
+</html>

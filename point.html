@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECOでポイ活</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to bottom, #f0f9f0, #ffffff);
+            min-height: 100vh;
+            padding-bottom: 60px;  /* Navigation barの余白をとる */
+            padding: 20px;  /* 一般的な余白の調整 */
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;  /* 上下の余白を減らす */
+        }
+
+        .points-hero-card {
+            background: linear-gradient(135deg, #22c55e, #059669);
+            border-radius: 20px;
+            padding: 16px;  /* 内側の余白を減らす */
+            color: white;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 12px;  /* 下の余白を減らす */
+        }
+
+        .points-hero-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .points-label {
+            font-size: 14px;
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+
+        .points-value {
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        .points-info {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .point-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;  /* 下の余白を減らす */
+        }
+
+        .stat-card {
+            background: white;
+            padding: 12px;  /* 内側の余白を減らす */
+            border-radius: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .section {
+            margin-bottom: 24px; /* 下の余白を追加 */
+        }
+
+        .section-title {
+            font-size: 18px;
+            margin-bottom: 8px;  /* 下の余白を減らす */
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .payment-option,
+        .bill-card,
+        .service-card {
+            background: white;
+            border-radius: 16px;
+            padding: 16px;  /* 内側の余白を減らす */
+            margin-bottom: 8px;  /* 下の余白を減らす */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        
+        .campaign-card, .offers-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px 16px; /* 内側の余白を調整 */
+            margin-bottom: 16px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .campaign-card:hover, .offers-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .campaign-icon, .offers-icon {
+            font-size: 28px;
+            color: #eab308;
+            margin-bottom: 12px;
+        }
+
+        .campaign-period, .offers-period {
+            font-size: 12px;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        .points-info-block {
+            padding: 0 8px;  /* 内側の左右余白を減らす */
+            margin-bottom: 8px;
+        }
+
+        .points-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .points-desc {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .points-amount {
+            background: #f0fdf4;
+            color: #22c55e;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 8px;  /* カード間の余白を減らす */
+        }
+
+        .service-card {
+            padding: 12px;  /* 内側の余白を減らす */
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            font-size: 12px;
+            color: #6b7280;
+            gap: 4px;
+        }
+
+        .nav-item.active {
+            color: #22c55e;
+        }
+
+        .notification-badge {
+            background: #22c55e;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+        }
+
+        .service-icon {
+            margin-bottom: 8px;  /* 下の余白を減らす */
+            font-size: 24px;
+            color: #22c55e;
+        }
+
+        @media(max-width: 768px) {
+            .service-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 既存のヘッダー部分 -->
+    <div class="header">
+        <h1 style="font-size: 24px; color: #333;">
+            <i class="fas fa-leaf" style="color: #22c55e; margin-right: 8px;"></i>
+            NEXTONE
+        </h1>
+        <div style="position: relative;">
+            <i class="fas fa-bell" style="font-size: 20px; color: #666;"></i>
+            <span class="notification-badge">2</span>
+        </div>
+    </div>
+
+    <!-- ポイントヒーローカードとポイント統計 -->
+    <div class="points-hero-card">
+        <div class="points-label">現在のポイント残高</div>
+        <div class="points-value">12,345pt</div>
+        <div class="points-info">
+            <div class="points-amount">
+                <i class="fas fa-arrow-up"></i>
+                <span>+1,234pt 今月獲得</span>
+            </div>
+        </div>
+    </div>
+    <div class="point-stats">
+        <div class="stat-card">
+            <div class="stat-label">先月の獲得ポイント</div>
+            <div class="stat-value">4,567pt</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">累計獲得ポイント</div>
+            <div class="stat-value">56,789pt</div>
+        </div>
+    </div>
+
+    <!-- ポイント支払い、電気料金、お得情報セクション -->
+    <div class="section">
+        <h2 class="section-title">
+            <i class="fas fa-wallet" style="color: #22c55e;"></i>
+            ポイント支払い
+        </h2>
+        <div class="service-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="points-info-block">
+                    <div class="points-title">電気料金の支払い</div>
+                    <div class="points-desc">1pt = 1円で支払い可能</div>
+                </div>
+                <button style="background: #22c55e; color: white; padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer;">
+                    支払う
+                </button>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <div class="points-info-block">
+                    <div class="points-title">ギフトカードに交換</div>
+                    <div class="points-desc">Amazon、楽天などに交換可能</div>
+                </div>
+                <button style="background: #22c55e; color: white; padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer;">
+                    交換する
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 電気料金セクション -->
+    <div class="section">
+        <h2 class="section-title">
+            <i class="fas fa-receipt" style="color: #22c55e;"></i>
+            電気料金
+        </h2>
+        <div class="service-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </div>
+                <div class="points-info-block">
+                    <div class="bill-title">今月の請求額</div>
+                    <div class="bill-desc">¥8,765</div>
+                </div>
+                <button style="background: #f59e0b; color: white; padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer;">
+                    詳細を見る
+                </button>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="points-info-block">
+                    <div class="bill-title">先月の使用量</div>
+                    <div class="bill-desc">350kWh</div>
+                </div>
+                <button style="background: #f59e0b; color: white; padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer;">
+                    詳細を見る
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- サービスセクション -->
+    <div class="section">
+        <h2 class="section-title">
+            <i class="fas fa-cogs" style="color: #22c55e;"></i>
+            サービス
+        </h2>
+        <div class="service-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="points-info-block">
+                    <div class="points-title">引越し</div>
+                    <div class="points-desc">お得なポイントで引越しをサポート</div>
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <div class="points-info-block">
+                    <div class="points-title">修理・メンテナンス</div>
+                    <div class="points-desc">迅速かつ信頼のサービスをご提供</div>
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="points-info-block">
+                    <div class="points-title">電気診断</div>
+                    <div class="points-desc">エネルギー効率を最大限に高める診断</div>
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-tint"></i>
+                </div>
+                <div class="points-info-block">
+                    <div class="points-title">ウォーターサーバー</div>
+                    <div class="points-desc">お得なプランで快適な生活をサポート</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- お得情報セクション -->
+    <div class="section">
+        <h2 class="section-title">
+            <i class="fas fa-star" style="color: #eab308;"></i>
+            お得情報
+        </h2>
+        <div class="offers-card">
+            <div class="offers-icon">
+                <i class="fas fa-tint"></i>
+            </div>
+            <div class="points-title">ウォーターサーバーご契約でポイント2倍！</div>
+            <div class="points-desc">10月までのご契約で更にお得に</div>
+        </div>
+
+        <div class="offers-card">
+            <div class="offers-icon">
+                <i class="fas fa-tags"></i>
+            </div>
+            <div class="points-title">アプリ限定クーポン配布中</div>
+            <div class="points-desc">毎週水曜日更新！お見逃しなく</div>
+        </div>
+    </div>
+
+    <!-- キャンペーンセクション -->
+    <div class="section">
+        <h2 class="section-title">
+            <i class="fas fa-bullhorn" style="color: #eab308;"></i>
+            キャンペーン
+        </h2>
+        <div class="campaign-card">
+            <div class="campaign-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="points-title">紹介キャンペーン</div>
+            <div class="points-desc">お友達紹介で双方に5,000ポイントプレゼント</div>
+            <div class="campaign-period">期間：2024年11月末まで</div>
+        </div>
+
+        <div class="campaign-card">
+            <div class="campaign-icon">
+                <i class="fas fa-plug"></i>
+            </div>
+            <div class="points-title">エコ家電買替応援キャンペーン</div>
+            <div class="points-desc">省エネ家電への買替で最大10,000ポイント還元</div>
+            <div class="campaign-period">期間：2024年12月末まで</div>
+        </div>
+    </div>
+
+    <!-- 下部ナビゲーション -->
+    <div class="bottom-nav">
+        <a href="#home" class="nav-item active">
+            <i class="fas fa-home"></i>
+            <span>ホーム</span>
+        </a>
+        <a href="#usage" class="nav-item">
+            <i class="fas fa-chart-bar"></i>
+            <span>使用量</span>
+        </a>
+        <a href="#rewards" class="nav-item">
+            <i class="fas fa-gift"></i>
+            <span>特典</span>
+        </a>
+        <a href="#settings" class="nav-item">
+            <i class="fas fa-cog"></i>
+            <span>設定</span>
+        </a>
+    </div>
+</body>
+</html>
