@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background: #f5f7fa;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .settings-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .card-header i {
+            font-size: 24px;
+            color: #3498db;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .setting-label {
+            flex: 1;
+        }
+
+        .setting-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .setting-description {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .setting-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* スイッチスタイル */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #3498db;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        /* セレクトボックススタイル */
+        select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: #fff;
+            font-size: 14px;
+        }
+
+        /* 時間入力スタイル */
+        input[type="time"] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: #fff;
+        }
+
+        /* 保存ボタン */
+        .save-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .save-button:hover {
+            background: #2980b9;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 支払い通知設定 -->
+        <div class="settings-card">
+            <div class="card-header">
+                <i>💰</i>
+                <h2 class="card-title">支払い通知</h2>
+            </div>
+            <div class="setting-row">
+                <div class="setting-label">
+                    <div class="setting-title">支払い通知</div>
+                    <div class="setting-description">支払い期限に関する通知を受け取ります</div>
+                </div>
+                <div class="setting-control">
+                    <label class="switch">
+                        <input type="checkbox" id="payment-toggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="setting-row" id="payment-settings">
+                <div class="setting-label">
+                    <div class="setting-title">事前通知タイミング</div>
+                </div>
+                <div class="setting-control">
+                    <select id="payment-timing">
+                        <option value="3">3日前</option>
+                        <option value="5">5日前</option>
+                        <option value="7">7日前</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- 使用量アラート設定 -->
+        <div class="settings-card">
+            <div class="card-header">
+                <i>⚡</i>
+                <h2 class="card-title">使用量アラート</h2>
+            </div>
+            <div class="setting-row">
+                <div class="setting-label">
+                    <div class="setting-title">使用量通知</div>
+                    <div class="setting-description">電気使用量が一定量を超えた際に通知します</div>
+                </div>
+                <div class="setting-control">
+                    <label class="switch">
+                        <input type="checkbox" id="usage-toggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="setting-row" id="usage-settings">
+                <div class="setting-label">
+                    <div class="setting-title">通知するしきい値</div>
+                </div>
+                <div class="setting-control">
+                    <select id="usage-threshold">
+                        <option value="70">70%</option>
+                        <option value="80" selected>80%</option>
+                        <option value="90">90%</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- キャンペーン通知設定 -->
+        <div class="settings-card">
+            <div class="card-header">
+                <i>🎉</i>
+                <h2 class="card-title">キャンペーン通知</h2>
+            </div>
+            <div class="setting-row">
+                <div class="setting-label">
+                    <div class="setting-title">キャンペーン情報</div>
+                    <div class="setting-description">お得なキャンペーン情報をお知らせします</div>
+                </div>
+                <div class="setting-control">
+                    <label class="switch">
+                        <input type="checkbox" id="campaign-toggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="setting-row" id="campaign-settings">
+                <div class="setting-label">
+                    <div class="setting-title">通知を受け取る種類</div>
+                </div>
+                <div class="setting-control">
+                    <label><input type="checkbox" checked> ポイント</label>
+                    <label><input type="checkbox" checked> 割引</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- 通知を制限する時間帯 -->
+        <div class="settings-card">
+            <div class="card-header">
+                <i>🌙</i>
+                <h2 class="card-title">おやすみ時間設定</h2>
+            </div>
+            <div class="setting-row">
+                <div class="setting-label">
+                    <div class="setting-title">通知制限時間</div>
+                    <div class="setting-description">指定した時間帯は通知を制限します</div>
+                </div>
+                <div class="setting-control">
+                    <label class="switch">
+                        <input type="checkbox" id="quiet-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="setting-row hidden" id="quiet-settings">
+                <div class="setting-label">
+                    <div class="setting-title">制限時間帯</div>
+                </div>
+                <div class="setting-control">
+                    <input type="time" id="quiet-start" value="22:00">
+                    <span>〜</span>
+                    <input type="time" id="quiet-end" value="07:00">
+                </div>
+            </div>
+        </div>
+
+        <button class="save-button" id="save-settings">設定を保存</button>
+    </div>
+
+    <script>
+        // トグルの状態に応じて詳細設定の表示/非表示を切り替える
+        function toggleSettings(toggleId, settingsId) {
+            const toggle = document.getElementById(toggleId);
+            const settings = document.getElementById(settingsId);
+            
+            toggle.addEventListener('change', function() {
+                if (settings) {
+                    settings.style.display = this.checked ? 'flex' : 'none';
+                }
+            });
+        }
+
+        // 各設定セクションのトグル制御
+        toggleSettings('payment-toggle', 'payment-settings');
+        toggleSettings('usage-toggle', 'usage-settings');
+        toggleSettings('campaign-toggle', 'campaign-settings');
+        toggleSettings('quiet-toggle', 'quiet-settings');
+
+        // 設定保存ボタンの処理
+        document.getElementById('save-settings').addEventListener('click', function() {
+            // 設定値を収集
+            const settings = {
+                payment: {
+                    enabled: document.getElementById('payment-toggle').checked,
+                    timing: document.getElementById('payment-timing').value
+                },
+                usage: {
+                    enabled: document.getElementById('usage-toggle').checked,
+                    threshold: document.getElementById('usage-threshold').value
+                },
+                campaign: {
+                    enabled: document.getElementById('campaign-toggle').checked
+                },
+                quiet: {
+                    enabled: document.getElementById('quiet-toggle').checked,
+                    start: document.getElementById('quiet-start').value,
+                    end: document.getElementById('quiet-end').value
+                }
+            };
+
+            // 設定を保存（実際のアプリではAPIに送信など）
+            console.log('保存された設定:', settings);
+            alert('設定を保存しました');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background: #f5f7fa;
+            color: #2c3e50;
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .hero {
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .hero h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+            color: #2c3e50;
+        }
+
+        .tip-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .tip-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .tip-title {
+            font-size: 1.2em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .tip-content {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .saving-amount {
+            color: #27ae60;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .calculator-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .calculator-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .result-display {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .savings-result {
+            font-size: 1.5em;
+            color: #27ae60;
+            margin: 10px 0;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 8px;
+            background: #3498db;
+            color: white;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin-right: 8px;
+        }
+
+        .footnote {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ヒーローセクション -->
+        <div class="hero">
+            <h1>電気代を賢く節約しよう</h1>
+            <p>家計にも環境にも優しい、実践的な節電メソッドをご紹介</p>
+        </div>
+
+        <!-- 記事本文 -->
+        <div class="article-card">
+            <h2 class="section-title">効果的な節電のコツ</h2>
+            <p>毎月の電気代を効果的に削減するためには、日々の小さな工夫の積み重ねが重要です。以下に紹介する方法を実践することで、年間で大きな節約効果が期待できます。</p>
+            
+            <div class="tip-container">
+                <div class="tip-card" onclick="showDetail(this)">
+                    <span class="tag">冷暖房</span>
+                    <h3 class="tip-title">エアコンの温度設定を見直す</h3>
+                    <div class="tip-content">
+                        冷房28℃、暖房20℃を目安に設定することで、快適性を保ちながら節電できます。
+                    </div>
+                    <div class="saving-amount">年間約5,000円の節約</div>
+                </div>
+
+                <div class="tip-card" onclick="showDetail(this)">
+                    <span class="tag">照明</span>
+                    <h3 class="tip-title">LEDへの交換</h3>
+                    <div class="tip-content">
+                        従来の電球からLEDに交換することで、大幅な電力削減が可能です。
+                    </div>
+                    <div class="saving-amount">年間約3,000円の節約</div>
+                </div>
+
+                <div class="tip-card" onclick="showDetail(this)">
+                    <span class="tag">待機電力</span>
+                    <h3 class="tip-title">待機電力の削減</h3>
+                    <div class="tip-content">
+                        使用していない機器のプラグを抜くことで、無駄な電力消費を防げます。
+                    </div>
+                    <div class="saving-amount">年間約2,000円の節約</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 節約計算機 -->
+        <div class="article-card">
+            <h2 class="section-title">節約効果シミュレーター</h2>
+            <div class="calculator-section">
+                <div class="calculator-inputs">
+                    <div class="form-group">
+                        <label class="form-label">世帯人数</label>
+                        <select class="form-select" id="household-size" onchange="calculateSavings()">
+                            <option value="1">1人</option>
+                            <option value="2">2人</option>
+                            <option value="3">3人</option>
+                            <option value="4">4人以上</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">現在の月間電気代</label>
+                        <input type="number" class="form-input" id="current-bill" 
+                               placeholder="例：10000" onchange="calculateSavings()">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">実施する節約方法</label>
+                        <select class="form-select" id="saving-method" onchange="calculateSavings()">
+                            <option value="basic">基本的な節約</option>
+                            <option value="moderate">積極的な節約</option>
+                            <option value="aggressive">徹底的な節約</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="result-display">
+                    <h3>予想される節約効果</h3>
+                    <div class="savings-result" id="savings-result">
+                        年間 ¥12,000 の節約
+                    </div>
+                    <p>※あくまで目安です。実際の節約効果は使用状況により異なります。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 補足情報 -->
+        <div class="article-card">
+            <h2 class="section-title">その他の節約ポイント</h2>
+            <ul>
+                <li>定期的なフィルター清掃で効率アップ</li>
+                <li>昼光を活用した照明の節約</li>
+                <li>電力使用量の見える化でムダを発見</li>
+            </ul>
+            <div class="footnote">
+                ※記載されている節約金額は一般的な目安であり、実際の効果は使用環境や生活習慣により異なります。
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateSavings() {
+            const householdSize = parseInt(document.getElementById('household-size').value);
+            const currentBill = parseInt(document.getElementById('current-bill').value) || 0;
+            const savingMethod = document.getElementById('saving-method').value;
+
+            let savingsRate = 0;
+            switch(savingMethod) {
+                case 'basic':
+                    savingsRate = 0.1; // 10%の節約
+                    break;
+                case 'moderate':
+                    savingsRate = 0.2; // 20%の節約
+                    break;
+                case 'aggressive':
+                    savingsRate = 0.3; // 30%の節約
+                    break;
+            }
+
+            // 世帯人数による調整
+            savingsRate *= (1 + (householdSize - 1) * 0.1);
+
+            const annualSavings = Math.round(currentBill * 12 * savingsRate);
+            
+            document.getElementById('savings-result').textContent = 
+                `年間 ¥${annualSavings.toLocaleString()} の節約`;
+        }
+
+        function showDetail(card) {
+            // カード選択時のビジュアルフィードバック
+            card.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                card.style.transform = 'translateY(-5px)';
+            }, 100);
+        }
+    </script>
+</body>
+</html>
